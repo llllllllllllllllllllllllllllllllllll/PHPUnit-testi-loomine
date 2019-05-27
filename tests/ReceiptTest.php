@@ -6,15 +6,27 @@ use PHPUnit\Framework\TestCase;
 use TDD\Receipt;
 
 class ReceiptTest extends TestCase {
-	public function testTotal() {
-	    // Loob uue Receipt klassi objekti.
-		$Receipt = new Receipt();
-        // Käivitab total funktsiooni esemetega, mille kogusumma on 15.
-        // Kontrollib, kas funktsioon tagastab summana 15.
-		$this->assertEquals(
-			15,
-			$Receipt->total([0,2,5,8]),
-			'When summing the total should equal 15'
-		);
-	}
+    // Loob teste alustades ja eemaldab teste lõpetades Receipt objekti.
+    // Nii ei pea iga funktsiooni sees seda uuesti looma
+    public function setUp() {
+        $this->Receipt = new Receipt();
+    }
+
+    public function tearDown() {
+        unset($this->Receipt);
+    }
+    public function testTotal() {
+        $input = [0,2,5,8];
+        // Käivitab $input muutujas olevate esemetega total funktsiooni.
+        $output = $this->Receipt->total($input);
+        // kontrollib, et funktsioon tagastaks esemete summa.
+        $this->assertEquals(
+            // Oodatav tulemus
+            15,
+            // Reaalne funktsioonist tagastatud tulemus.
+            $output,
+            // Errorisõnum ebaõnnestunud testi puhul
+            'When summing the total should equal 15'
+        );
+    }
 }
