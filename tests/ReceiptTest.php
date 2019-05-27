@@ -17,8 +17,10 @@ class ReceiptTest extends TestCase {
     }
     public function testTotal() {
         $input = [0,2,5,8];
+        $coupon = null;
         // Käivitab $input muutujas olevate esemetega total funktsiooni.
-        $output = $this->Receipt->total($input);
+        // Kupongi väärtus on null; selle toimivust ei kontrollita.
+        $output = $this->Receipt->total($input, $coupon);
         // kontrollib, et funktsioon tagastaks esemete summa.
         $this->assertEquals(
             // Oodatav tulemus
@@ -27,6 +29,19 @@ class ReceiptTest extends TestCase {
             $output,
             // Errorisõnum ebaõnnestunud testi puhul
             'When summing the total should equal 15'
+        );
+    }
+
+    public function testTotalAndCoupon() {
+        // Kontrollib total funktsiooni toimivust, kasutades kupongi lisamise võimalust.
+        $input = [0,2,5,8];
+        $coupon = 0.20;
+        $output = $this->Receipt->total($input, $coupon);
+        // Kasutatud esemete summa on 15, mida andtud kupong vähendab 20% võrra - seega oodatav tulemus on 12.
+        $this->assertEquals(
+            12,
+            $output,
+            'When summing the total should equal 12'
         );
     }
 
