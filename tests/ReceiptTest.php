@@ -15,21 +15,32 @@ class ReceiptTest extends TestCase {
     public function tearDown() {
         unset($this->Receipt);
     }
-    public function testTotal() {
-        $input = [0,2,5,8];
+
+    /**
+     * @dataProvider provideTotal
+     */
+    public function testTotal($items, $expected) {
         $coupon = null;
-        // Käivitab $input muutujas olevate esemetega total funktsiooni.
+        // Käivitab provideTotal dataprovideri poolt antud esemetega total funktsiooni.
         // Kupongi väärtus on null; selle toimivust ei kontrollita.
-        $output = $this->Receipt->total($input, $coupon);
+        $output = $this->Receipt->total($items, $coupon);
         // kontrollib, et funktsioon tagastaks esemete summa.
         $this->assertEquals(
-            // Oodatav tulemus
-            15,
+            // Oodatav tulemus; saadakse dataproviderilt
+            $expected,
             // Reaalne funktsioonist tagastatud tulemus.
             $output,
             // Errorisõnum ebaõnnestunud testi puhul
-            'When summing the total should equal 15'
+            "When summing the total should equal {$expected}"
         );
+    }
+    public function provideTotal() {
+        // Annab testTotal funktsioonile mitu erinevat
+        return [
+            [[1,2,5,8], 16],
+            [[-1,2,5,8], 14],
+            [[1,2,8], 11],
+        ];
     }
 
     public function testTotalAndCoupon() {
