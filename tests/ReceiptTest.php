@@ -45,6 +45,22 @@ class ReceiptTest extends TestCase {
         );
     }
 
+    public function testPostTaxTotal() {
+        // Testib isoleeritult lisatava postTaxTotal funktsiooni tööd,
+        // kasutades stubi. Kontrollitakse üle ka, et postTaxTotal funktsiooni
+        // poolt käivitatavad tax ja total funktsioonid tagastaksid oodatud tulemuse.
+        $Receipt = $this->getMockBuilder('TDD\Receipt')
+            ->setMethods(['tax', 'total'])
+            ->getMock();
+        $Receipt->method('total')
+            ->will($this->returnValue(10.00));
+        $Receipt->method('tax')
+            ->will($this->returnValue(1.00));
+        // Lisanduv postTaxTotal funktsioon tagastab total ja tax summa.
+        $result = $Receipt->postTaxTotal([1,2,5,8], 0.20, null);
+        $this->assertEquals(11.00, $result);
+    }
+
     public function testTax() {
         // Testib Receipt klassi loodud tax funktsiooni tööd.
         // Funktsioon peaks tagastama koguse ja maksu korrutise.
