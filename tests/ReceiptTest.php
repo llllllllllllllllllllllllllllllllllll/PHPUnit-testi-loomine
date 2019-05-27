@@ -37,7 +37,7 @@ class ReceiptTest extends TestCase {
     public function provideTotal() {
         // Annab testTotal funktsioonile mitu erinevat
         return [
-            [[1,2,5,8], 16],
+            'ints totaling 16' => [[1,2,5,8], 16],
             [[-1,2,5,8], 14],
             [[1,2,8], 11],
         ];
