@@ -56,6 +56,15 @@ class ReceiptTest extends TestCase {
         );
     }
 
+    public function testTotalException() {
+        // Testib, et total funktsioon ei laseks kasutada kupongi, mis vähendab esemete summat rohkem kui 100% võrra.
+        $input = [0,2,5,8];
+        $coupon = 1.20;
+        // Kuna kupongi väärtus on suurem kui 1 (100%), peab funktsioon nende andmetega käivitudes andma errori "BadMethodCallException".
+        $this->expectException('BadMethodCallException');
+        $this->Receipt->total($input, $coupon);
+    }
+
     public function testPostTaxTotal() {
         // Testib isoleeritult lisatava postTaxTotal funktsiooni tööd,
         // kasutades mocki.
