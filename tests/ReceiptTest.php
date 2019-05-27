@@ -29,4 +29,17 @@ class ReceiptTest extends TestCase {
             'When summing the total should equal 15'
         );
     }
+
+    public function testTax() {
+        // Testib Receipt klassi loodud tax funktsiooni tööd.
+        // Funktsioon peaks tagastama koguse ja maksu korrutise.
+        $inputAmount = 10.00;
+        $taxInput = 0.10;
+        $output = $this->Receipt->tax($inputAmount, $taxInput);
+        $this->assertEquals(
+            1.00,
+            $output,
+            'The tax calculation should equal 1.00'
+        );
+    }
 }
